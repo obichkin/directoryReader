@@ -20,7 +20,7 @@ import org.apache.commons.io.FilenameUtils;
  */
 public class DirectoryReaderUtil {
 
-	private static final String defaultDir = "./testdirectory/Main Project";
+	private static final String defaultDir = "./";
 	private static int indent;
 
     /**
@@ -41,16 +41,19 @@ public class DirectoryReaderUtil {
 
 	    try {
 
-            File dir = new File(root);
-            if (dir.exists()) {
+	        if(root!=null){
+                File dir = new File(root);
+                if (dir.exists()) {
 
-                indent = dir.getAbsolutePath().length() - dir.getName().length();
-                printFileOnConsole(dir);
-                listDirectory(dir, 0);
+                    indent = dir.getAbsolutePath().length() - dir.getName().length();
+                    printFileOnConsole(dir);
+                    listDirectory(dir, 0);
 
-            } else {
-                System.out.println("Directory " + dir + " does not exist.\n" +
-                        "Please specify correct directory path.");
+                } else {
+                    System.out.println("Directory " + dir + " does not exist.\n" +
+                            "Please specify correct directory path.");
+                }
+
             }
 
         }catch (Exception e){
@@ -66,7 +69,7 @@ public class DirectoryReaderUtil {
      */
 	private void listDirectory(File dir, int tabs) {
 
-        File[] files = dir.listFiles().clone();
+        File[] files = dir.listFiles();
         for(File file: files) {
             printFileOnConsole(file, tabs+1);
             if(file.isDirectory()) {
@@ -126,6 +129,7 @@ public class DirectoryReaderUtil {
 
 	    String dir = (args.length>0) ? args[0] : defaultDir;
         new DirectoryReaderUtil().listAllFilesRecursively(dir);
+
 	}
 
 }
